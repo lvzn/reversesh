@@ -74,6 +74,15 @@ void writeLines(Node* head, char* filename) {
     fclose(f);
 }
 
+void freeMemory(Node* head) {
+    Node *ptr = head;
+    while (ptr != NULL) {
+        head = ptr->next;
+        free(ptr);
+        ptr = head;
+    }
+}
+
 int main(int argc, char** argv) {
     Node* head = NULL;
 
@@ -98,5 +107,6 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Too many arguments\n");
         break;
     }
+    freeMemory(head);
     return 0;
 }
