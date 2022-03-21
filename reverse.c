@@ -23,7 +23,6 @@ Node* readlines(Node* head) {
     while (getline(&buf, &length, stdin) != -1) {
         if (strcmp(buf, "\n") == 0)
             break;
-        printf("%s", buf);
         head = addNode(head, buf);
     }
     return head;
@@ -80,12 +79,10 @@ int main(int argc, char** argv) {
 
     switch (argc) {
     case 1:
-        puts("1 arg");
         head = readlines(head);
         printLines(head);
         break;
     case 2:
-        puts("2 args");
         head = readFile(argv[1], head);
         printLines(head);
         break;
@@ -94,7 +91,6 @@ int main(int argc, char** argv) {
             fprintf(stderr, "Input and output file must differ\n");
             exit(1);
         }
-        puts("3 args");
         head = readFile(argv[1], head);
         writeLines(head, argv[2]);
         break;
