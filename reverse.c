@@ -17,6 +17,7 @@ Node* readFile(char* inputfile, Node* head);
 void printLines(Node* head);
 void writeLines(Node* head, char* filename);
 
+//Reading lines from users' input if no args given
 Node* readlines(Node* head) {
     char* buf;
     size_t length = 0;
@@ -28,6 +29,7 @@ Node* readlines(Node* head) {
     return head;
 }
 
+//Reading file from first arg given
 Node* readFile(char* inputfile, Node* head) {
     FILE* f;
     char* buf;
@@ -43,8 +45,10 @@ Node* readFile(char* inputfile, Node* head) {
     return head;
 }
 
+//Creates a new node and makes it point to the previous head node
 Node* addNode(Node* head, char* line) {
     Node* newNode;
+    //Dynamically allocating memory
     if ((newNode = malloc(sizeof(Node))) == NULL) {
         fprintf(stderr, "malloc failed");
         exit(1);
@@ -54,6 +58,7 @@ Node* addNode(Node* head, char* line) {
     return newNode;
 }
 
+//Printing lines from the linked list
 void printLines(Node* head) {
     while (head != NULL) {
         printf("%s", head->line);
@@ -61,6 +66,7 @@ void printLines(Node* head) {
     }
 }
 
+//Writing lines to the given file
 void writeLines(Node* head, char* filename) {
     FILE* f = NULL;
     if ((f = fopen(filename, "w")) == NULL) {
@@ -79,6 +85,7 @@ int main(int argc, char** argv) {
 
     switch (argc) {
     case 1:
+        //Updating "head" with the most recent given value
         head = readlines(head);
         printLines(head);
         break;
