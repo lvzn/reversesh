@@ -17,12 +17,24 @@ Node* readFile(char* inputfile, Node* head);
 void printLines(Node* head);
 void writeLines(Node* head, char* filename);
 
+Node* readlines(Node* head) {
+    char* buf;
+    size_t length = 0;
+    while (getline(&buf, &length, stdin) != -1) {
+        if (strcmp(buf, "\n") == 0)
+            break;
+        printf("%s", buf);
+        head = addNode(head, buf);
+    }
+    return head;
+}
+
 Node* readFile(char* inputfile, Node* head) {
     FILE* f;
     char* buf;
     size_t length = 0;
     if ((f = fopen(inputfile, "r")) == NULL) {
-        puts("File can't be opened.");
+        fprintf(stderr, "error: cannot open file '%s'\n", inputfile);
         exit(1);
     }
     while (getline(&buf, &length, f) != -1) {
@@ -53,7 +65,7 @@ void printLines(Node* head) {
 void writeLines(Node* head, char* filename) {
     FILE* f = NULL;
     if ((f = fopen(filename, "w")) == NULL) {
-        puts("File can't be opened.");
+        fprintf(stderr, "error: cannot open file '%s'\n", filename);
         exit(1);
     }
     while (head != NULL) {
@@ -69,7 +81,8 @@ int main(int argc, char** argv) {
     switch (argc) {
     case 1:
         puts("1 arg");
-        //read input from stdin and reverse it to stdout
+        head = readlines(head);
+        printLines(head);
         break;
     case 2:
         puts("2 args");
@@ -77,12 +90,16 @@ int main(int argc, char** argv) {
         printLines(head);
         break;
     case 3:
+        if (strcmp(argv[1], argv[2]) == 0) {
+            fprintf(stderr, "Input and output file must differ\n");
+            exit(1);
+        }
         puts("3 args");
         head = readFile(argv[1], head);
         writeLines(head, argv[2]);
         break;
     default:
-        puts("Too many arguments");
+        fprintf(stderr, "Too many arguments\n");
         break;
     }
     return 0;
