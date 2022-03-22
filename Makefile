@@ -1,6 +1,4 @@
 reverse: reverse.o
-	gcc reverse.o -o reverse
-reverse.o: reverse.c
-	gcc -c -Wall reverse.c 
+	gcc reverse.c -o reverse -Wall
 clean:
 	rm -rf *.o

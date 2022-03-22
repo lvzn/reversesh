@@ -1,5 +1,6 @@
 //Sources:
 //1: https://www.geeksforgeeks.org/linked-list-set-1-introduction/
+//2: https://stackoverflow.com/questions/42478868/how-do-i-properly-free-memory-related-to-getline-function
 
 #include <stdio.h>
 #include <string.h>
@@ -19,20 +20,21 @@ void writeLines(Node* head, char* filename);
 
 //Reading lines from users' input if no args given
 Node* readlines(Node* head) {
-    char* buf;
-    size_t length = 0;
-    while (getline(&buf, &length, stdin) != -1) {
+    char* buf = NULL;
+    size_t length = 0, read;
+    while ((read = getline(&buf, &length, stdin)) != -1) {
         if (strcmp(buf, "\n") == 0)
             break;
         head = addNode(head, buf);
     }
+    free(buf); //Sources: 2, had to check, couldn't figure it out on our own
     return head;
 }
 
 //Reading file from first arg given
 Node* readFile(char* inputfile, Node* head) {
     FILE* f;
-    char* buf;
+    char* buf = NULL;
     size_t length = 0;
     if ((f = fopen(inputfile, "r")) == NULL) {
         fprintf(stderr, "error: cannot open file '%s'\n", inputfile);
@@ -41,6 +43,7 @@ Node* readFile(char* inputfile, Node* head) {
     while (getline(&buf, &length, f) != -1) {
         head = addNode(head, buf);
     }
+    free(buf); //sources: 2
     fclose(f);
     return head;
 }
@@ -80,13 +83,15 @@ void writeLines(Node* head, char* filename) {
     fclose(f);
 }
 
-void freeMemory(Node* head) {
+Node* freeMemory(Node* head) {
     Node *ptr = head;
     while (ptr != NULL) {
-        head = ptr->next;
-        free(ptr);
         ptr = head;
+        head = ptr->next;
+        free(ptr->line);
+        free(ptr);
     }
+    return head;
 }
 
 int main(int argc, char** argv) {
@@ -114,6 +119,6 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Too many arguments\n");
         break;
     }
-    freeMemory(head);
+    head = freeMemory(head);
     return 0;
 }
