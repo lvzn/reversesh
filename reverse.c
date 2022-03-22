@@ -86,10 +86,10 @@ void writeLines(Node* head, char* filename) {
 Node* freeMemory(Node* head) {
     Node *ptr = head;
     while (ptr != NULL) {
-        ptr = head;
         head = ptr->next;
         free(ptr->line);
         free(ptr);
+        ptr = head;
     }
     return head;
 }
