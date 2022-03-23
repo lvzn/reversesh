@@ -1,16 +1,16 @@
 # reversesh
 A little C program to read the lines you input and print them out in reverse order.
 
-## list of features 
+## List of features 
 - read input from file and print to stdout (1 argument)
 - read input from file and write output to file (2 arguments)
 - read input from stdin and print output to stdout (0 arguments)
 
-## compiling and running
+## Compiling and running
 To compile the code just run `make` in the root of the folder in your shell.
 After compilation, you should be able to run the program using `./reverse arg1 arg2`
 
-## arguments
+## Usage
 There are three ways to run the program: </br> </br>
 `./reverse` </br>
 in this case you will read input straigt from stdin. To stop, just type nothing and press enter. </br> </br>
