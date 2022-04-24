@@ -116,7 +116,8 @@ int main(int argc, char** argv) {
         writeLines(head, argv[2]);
         break;
     default:
-        fprintf(stderr, "Too many arguments\n");
+        fprintf(stderr, "Usage: reverse <input> <output>\n");
+        exit(1);
         break;
     }
     head = freeMemory(head);
